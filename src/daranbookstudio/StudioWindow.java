@@ -6,8 +6,21 @@
 package daranbookstudio;
 
 import java.awt.HeadlessException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  *
@@ -17,6 +30,12 @@ import javax.swing.JFileChooser;
 public class StudioWindow extends javax.swing.JFrame {
 
     public LoadingWindow loadwin;
+    private ArrayList<String> fileNameArray;
+    private Boolean isUNIX;
+    private DefaultListModel listModel;
+    private String dirAddress;
+    private String separator;
+    private String nowtxtfile;
     
     public String softname = "DaRanBookPackage Studio v1.0 beta";
     /**
@@ -28,6 +47,62 @@ public class StudioWindow extends javax.swing.JFrame {
         loadwin.closewindow();
         lbl_stat.setText("请新建或打开一个数据包。使用较短的文件路径更容易编辑。");
         this.setTitle(softname + " - 尚未加载数据包文件夹");
+        fileNameArray = new ArrayList<String>();
+        System.out.println("os.name:"+System.getProperties().getProperty("os.name"));
+        separator = System.getProperties().getProperty("file.separator");
+        win_filemgr.setTitle(win_filemgr.getTitle() + "：" + System.getProperties().getProperty("os.name") + " 格式");
+        win_fileedit.setTitle(win_fileedit.getTitle() + "：" + "没有打开文件，请在左侧列表选择要编辑的txt文件。");
+        listModel = new DefaultListModel();
+        filemgr_list_files.setModel(listModel);
+        //filemgr_list_files.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        filemgr_list_files.addMouseListener(new MouseAdapter() {         
+            public void mouseClicked(MouseEvent e) {
+//                if (e.getClickCount() == 1) {
+//                    oneClick(filemgr_list_files.getSelectedValue());
+//                }
+                if (e.getClickCount() == 2) {
+                    twoClick(filemgr_list_files.getSelectedValue());
+                }
+            }
+        });
+    }
+    
+    public void twoClick(Object value) {
+        loadingOpen("正在打开文件");
+        String fileAddress = dirAddress + separator + value.toString();
+        win_fileedit.setTitle("文件编辑：" + fileAddress);
+        nowtxtfile = fileAddress;
+        BufferedReader reader;
+        if (typeidtxt(fileAddress)) {
+            try {
+                reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileAddress), "UTF-8")); // 指定读取文件的编码格式，要和写入的格式一致，以免出现中文乱码,
+                String str = null;
+                while ((str = reader.readLine()) != null) {
+                    fileedit_txt_edit.setText(fileedit_txt_edit.getText() + str + "\n");
+                }
+                reader.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        loadingClose();
+    }
+    
+    private Boolean typeidtxt (String fileAddress) {
+        String typename = fileAddress.substring(fileAddress.length()-3);
+        if (typename.equals("txt") || typename.equals("TXT")) {
+            fileedit_btn_savefile.setEnabled(true);
+            fileedit_txt_edit.setEnabled(true);
+            fileedit_txt_edit.setText("");
+            return true;
+        } else {
+            fileedit_btn_savefile.setEnabled(false);
+            fileedit_txt_edit.setEnabled(false);
+            fileedit_txt_edit.setText("不支持的文件格式（" + typename + "），不能编辑。");
+            return false;
+        }
     }
 
     /**
@@ -133,12 +208,17 @@ public class StudioWindow extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         win_fileedit = new javax.swing.JInternalFrame();
         jToolBar3 = new javax.swing.JToolBar();
-        fileedit_btn_newfile = new javax.swing.JButton();
         fileedit_btn_savefile = new javax.swing.JButton();
+        fileedit_btn_clear = new javax.swing.JButton();
+        jLabel33 = new javax.swing.JLabel();
+        fileedit_txt_newfilename = new javax.swing.JTextField();
+        fileedit_btn_newfile = new javax.swing.JButton();
         fileedit_btn_savenew = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jCheckBox6 = new javax.swing.JCheckBox();
+        fileedit_chk_entermode = new javax.swing.JCheckBox();
         jLabel32 = new javax.swing.JLabel();
+        jCheckBox7 = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         fileedit_txt_edit = new javax.swing.JTextPane();
 
@@ -389,7 +469,7 @@ public class StudioWindow extends javax.swing.JFrame {
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton10)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("章节名称生成", jPanel2);
@@ -445,7 +525,7 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton13)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("相册图片列表生成", jPanel3);
@@ -493,7 +573,7 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("关键字解释生成", jPanel4);
@@ -632,7 +712,7 @@ public class StudioWindow extends javax.swing.JFrame {
                         .addComponent(jLabel22)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton17)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("选择题生成", jPanel5);
@@ -743,7 +823,7 @@ public class StudioWindow extends javax.swing.JFrame {
                     .addComponent(lst_pic2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton19)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("分类题生成", jPanel6);
@@ -764,7 +844,7 @@ public class StudioWindow extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("资料包打包和加密", jPanel7);
@@ -777,7 +857,7 @@ public class StudioWindow extends javax.swing.JFrame {
         );
         win_insertLayout.setVerticalGroup(
             win_insertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
         );
 
         win_fileedit.setTitle("文件编辑");
@@ -785,19 +865,37 @@ public class StudioWindow extends javax.swing.JFrame {
 
         jToolBar3.setRollover(true);
 
+        fileedit_btn_savefile.setText("保存修改");
+        fileedit_btn_savefile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fileedit_btn_savefile.setEnabled(false);
+        fileedit_btn_savefile.setFocusable(false);
+        fileedit_btn_savefile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fileedit_btn_savefile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        fileedit_btn_savefile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileedit_btn_savefileActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(fileedit_btn_savefile);
+
+        fileedit_btn_clear.setText("清空");
+        fileedit_btn_clear.setFocusable(false);
+        fileedit_btn_clear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fileedit_btn_clear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar3.add(fileedit_btn_clear);
+
+        jLabel33.setText("新建文件名:");
+        jToolBar3.add(jLabel33);
+
+        fileedit_txt_newfilename.setText("新建配置文件.txt");
+        jToolBar3.add(fileedit_txt_newfilename);
+
         fileedit_btn_newfile.setText("新建文件");
         fileedit_btn_newfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         fileedit_btn_newfile.setFocusable(false);
         fileedit_btn_newfile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileedit_btn_newfile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar3.add(fileedit_btn_newfile);
-
-        fileedit_btn_savefile.setText("保存修改");
-        fileedit_btn_savefile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        fileedit_btn_savefile.setFocusable(false);
-        fileedit_btn_savefile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        fileedit_btn_savefile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar3.add(fileedit_btn_savefile);
 
         fileedit_btn_savenew.setText("存为新文件");
         fileedit_btn_savenew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -807,16 +905,27 @@ public class StudioWindow extends javax.swing.JFrame {
         jToolBar3.add(fileedit_btn_savenew);
         jToolBar3.add(filler2);
 
-        jCheckBox6.setSelected(true);
-        jCheckBox6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jCheckBox6.setFocusable(false);
-        jCheckBox6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jCheckBox6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar3.add(jCheckBox6);
+        fileedit_chk_entermode.setSelected(true);
+        fileedit_chk_entermode.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fileedit_chk_entermode.setFocusable(false);
+        fileedit_chk_entermode.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        fileedit_chk_entermode.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar3.add(fileedit_chk_entermode);
 
         jLabel32.setText("强制UNIX风格换行符");
         jToolBar3.add(jLabel32);
 
+        jCheckBox7.setSelected(true);
+        jCheckBox7.setEnabled(false);
+        jCheckBox7.setFocusable(false);
+        jCheckBox7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jCheckBox7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar3.add(jCheckBox7);
+
+        jLabel2.setText("强制使用UTF-8读写");
+        jToolBar3.add(jLabel2);
+
+        fileedit_txt_edit.setEnabled(false);
         jScrollPane2.setViewportView(fileedit_txt_edit);
 
         javax.swing.GroupLayout win_fileeditLayout = new javax.swing.GroupLayout(win_fileedit.getContentPane());
@@ -869,7 +978,7 @@ public class StudioWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_filemgr_btn_addfileActionPerformed
 
     private void mainwin_btn_opendirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainwin_btn_opendirActionPerformed
-        loadingOpen("打开数据包文件夹");
+        loadingOpen("正在统计文件");
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);//只能选择目录
         String path=null;
@@ -889,13 +998,73 @@ public class StudioWindow extends javax.swing.JFrame {
         if (path != null && !path.equals("null")) {
             this.setTitle(softname + " - " + path);
             lbl_stat.setText("已挂载文件夹：" + path + "。");
+            dirAddress = path;
+            list(path, false, false);
         } else {
             lbl_stat.setText("已取消选择。" + path);
         }
         loadingClose();
     }//GEN-LAST:event_mainwin_btn_opendirActionPerformed
 
+    private void convertEnter() {
+        if (fileedit_chk_entermode.isSelected()) {
+            fileedit_txt_edit.setText(fileedit_txt_edit.getText().replaceAll("\r\n", "\n"));
+        }
+    }
     
+    private void fileedit_btn_savefileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileedit_btn_savefileActionPerformed
+        loadingOpen("正在保存");
+        BufferedWriter fw = null;
+        convertEnter();
+        try {
+            File file = new File(nowtxtfile);
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8")); // 指定编码格式，以免读取时中文字符异常
+            fw.append(fileedit_txt_edit.getText());
+            //fw.newLine();
+            fw.flush(); // 全部写入缓存中的内容
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        loadingClose();
+    }//GEN-LAST:event_fileedit_btn_savefileActionPerformed
+
+    private ArrayList<String> list(String filePath, boolean b_cdir, boolean b_dirname) {
+        listModel.removeAllElements();
+        ArrayList<String> filelist = new ArrayList<String>();
+        String[] arr = null;
+            File root = new File(filePath);
+            File[] files = root.listFiles();
+            for(File file:files){
+                if(file.isDirectory()){
+                    if (b_cdir) {
+                        list(file.getAbsolutePath(), b_cdir, b_dirname);
+                    }
+                    if (b_dirname) {
+                        System.out.println(file.getName());
+                        filelist.add(file.getName());
+                        //mw.setNum(false);
+                        addListItem(file.getName());
+                    }
+                } else {
+                    System.out.println(file.getName());
+                    filelist.add(file.getName());
+                    //mw.setNum(false);
+                    addListItem(file.getName());
+                }
+            }
+        return filelist;
+    }
+    private void addListItem(String filename) {
+        listModel.addElement(filename);
+    }
     
     private void loadingOpen(String info) {
         this.setEnabled(false);
@@ -944,10 +1113,13 @@ public class StudioWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton fileedit_btn_clear;
     private javax.swing.JButton fileedit_btn_newfile;
     private javax.swing.JButton fileedit_btn_savefile;
     private javax.swing.JButton fileedit_btn_savenew;
+    private javax.swing.JCheckBox fileedit_chk_entermode;
     private javax.swing.JTextPane fileedit_txt_edit;
+    private javax.swing.JTextField fileedit_txt_newfilename;
     private javax.swing.JButton filemgr_btn_adddir;
     private javax.swing.JButton filemgr_btn_addfile;
     private javax.swing.JButton filemgr_btn_clear;
@@ -973,7 +1145,7 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
+    private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -985,6 +1157,7 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -999,6 +1172,7 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
