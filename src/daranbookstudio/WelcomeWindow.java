@@ -20,6 +20,8 @@ public class WelcomeWindow extends javax.swing.JFrame {
     Timer timer = new java.util.Timer(true);
     int step = 0;
     
+    public StudioWindow sw;
+    
     public WelcomeWindow() {
         initComponents();
         //JOptionPane.showMessageDialog(null, "?", "info", JOptionPane.ERROR_MESSAGE);
@@ -31,13 +33,13 @@ public class WelcomeWindow extends javax.swing.JFrame {
     
     public void StartStudio() {
         if (step == 0) {
-            StudioWindow sw = new StudioWindow();
+            sw = new StudioWindow();
             sw.setVisible(true);
-            
             step++;
         } else {
             timer.cancel();
             this.setVisible(false);
+            sw.openDataDir();
         }
     }
     
@@ -82,6 +84,7 @@ public class WelcomeWindow extends javax.swing.JFrame {
         jLabel2.setText("DaRanBookPackage Studio");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/daranbookstudio/cc80x15.png"))); // NOI18N
         jLabel3.setText("Developer by KagurazakaYashi 2015");
 
         jLabel4.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N

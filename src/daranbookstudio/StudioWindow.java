@@ -5,6 +5,7 @@
  */
 package daranbookstudio;
 
+import java.awt.Desktop;
 import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,6 +22,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 /**
  *
@@ -30,12 +36,12 @@ import java.io.OutputStreamWriter;
 public class StudioWindow extends javax.swing.JFrame {
 
     public LoadingWindow loadwin;
-    private ArrayList<String> fileNameArray;
-    private Boolean isUNIX;
     private DefaultListModel listModel;
+    private DefaultComboBoxModel picModel;
     private String dirAddress;
     private String separator;
     private String nowtxtfile;
+    private int listi;
     
     public String softname = "DaRanBookPackage Studio v1.0 beta";
     /**
@@ -47,24 +53,26 @@ public class StudioWindow extends javax.swing.JFrame {
         loadwin.closewindow();
         lbl_stat.setText("请新建或打开一个数据包。使用较短的文件路径更容易编辑。");
         this.setTitle(softname + " - 尚未加载数据包文件夹");
-        fileNameArray = new ArrayList<String>();
         System.out.println("os.name:"+System.getProperties().getProperty("os.name"));
         separator = System.getProperties().getProperty("file.separator");
         win_filemgr.setTitle(win_filemgr.getTitle() + "：" + System.getProperties().getProperty("os.name") + " 格式");
         win_fileedit.setTitle(win_fileedit.getTitle() + "：" + "没有打开文件，请在左侧列表选择要编辑的txt文件。");
         listModel = new DefaultListModel();
+        picModel = new DefaultComboBoxModel();
         filemgr_list_files.setModel(listModel);
+        lst_pic1.setModel(picModel);
+        lst_pic2.setModel(picModel);
         //filemgr_list_files.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         filemgr_list_files.addMouseListener(new MouseAdapter() {         
             public void mouseClicked(MouseEvent e) {
-//                if (e.getClickCount() == 1) {
+//                if (e.getClickCount() == 1 && filemgr_list_files.getSelectedIndex() >= 0) {
 //                    oneClick(filemgr_list_files.getSelectedValue());
 //                }
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 2 && filemgr_list_files.getSelectedIndex() >= 0) {
                     twoClick(filemgr_list_files.getSelectedValue());
                 }
             }
-        });
+        });              
     }
     
     public void twoClick(Object value) {
@@ -91,8 +99,8 @@ public class StudioWindow extends javax.swing.JFrame {
     }
     
     private Boolean typeidtxt (String fileAddress) {
-        String typename = fileAddress.substring(fileAddress.length()-3);
-        if (typename.equals("txt") || typename.equals("TXT")) {
+        String typename = fileAddress.substring(fileAddress.length()-4);
+        if (typename.equals(".txt") || typename.equals(".TXT")) {
             fileedit_btn_savefile.setEnabled(true);
             fileedit_txt_edit.setEnabled(true);
             fileedit_txt_edit.setText("");
@@ -125,9 +133,10 @@ public class StudioWindow extends javax.swing.JFrame {
         filemgr_list_files = new javax.swing.JList();
         jToolBar2 = new javax.swing.JToolBar();
         mainwin_btn_opendir = new javax.swing.JButton();
-        mainwin_btn_newdir = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         lbl_stat = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         win_insert = new javax.swing.JInternalFrame();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -143,62 +152,62 @@ public class StudioWindow extends javax.swing.JFrame {
         index_btn_gfilelist = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        chapter_txt_chaptername = new javax.swing.JTextField();
+        chapter_com_isone = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        chapter_txt_sectionname = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        chapter_txt_chapternum = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton10 = new javax.swing.JButton();
+        chapter_txt_sectionnum = new javax.swing.JTextField();
+        chapter_btn_g = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         lst_pic1 = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        album_txt_picname = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jButton13 = new javax.swing.JButton();
+        album_txt_picinfo = new javax.swing.JTextField();
+        album_btn_g = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        keyword_txt_keyword = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jButton15 = new javax.swing.JButton();
+        keyword_txt_info = new javax.swing.JTextField();
+        keyword_btn_g = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
-        jButton16 = new javax.swing.JButton();
+        choice_txt_name = new javax.swing.JTextField();
+        choice_btn_name = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        choice_txt_q = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        choice_txt_a = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        choice_txt_b = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField17 = new javax.swing.JTextField();
+        choice_txt_c = new javax.swing.JTextField();
+        choice_txt_d = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jButton17 = new javax.swing.JButton();
+        choice_com_a = new javax.swing.JCheckBox();
+        choice_com_b = new javax.swing.JCheckBox();
+        choice_com_c = new javax.swing.JCheckBox();
+        choice_com_d = new javax.swing.JCheckBox();
+        choice_btn_q = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        jTextField18 = new javax.swing.JTextField();
-        jButton18 = new javax.swing.JButton();
+        classify_txt_name = new javax.swing.JTextField();
+        classify_btn_name = new javax.swing.JButton();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
+        classify_txt_typea = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jTextField20 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jTextField21 = new javax.swing.JTextField();
+        classify_txt_typeb = new javax.swing.JTextField();
+        classify_rad_typea = new javax.swing.JRadioButton();
+        classify_rad_typeb = new javax.swing.JRadioButton();
+        classify_txt_pic = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         lst_pic2 = new javax.swing.JComboBox();
         jLabel29 = new javax.swing.JLabel();
@@ -219,8 +228,8 @@ public class StudioWindow extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         jCheckBox7 = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        fileedit_txt_edit = new javax.swing.JTextPane();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        fileedit_txt_edit = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -248,6 +257,11 @@ public class StudioWindow extends javax.swing.JFrame {
         filemgr_btn_removefile.setFocusable(false);
         filemgr_btn_removefile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         filemgr_btn_removefile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        filemgr_btn_removefile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filemgr_btn_removefileActionPerformed(evt);
+            }
+        });
         jToolBar1.add(filemgr_btn_removefile);
 
         filemgr_btn_adddir.setText("添加文件夹");
@@ -255,6 +269,11 @@ public class StudioWindow extends javax.swing.JFrame {
         filemgr_btn_adddir.setFocusable(false);
         filemgr_btn_adddir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         filemgr_btn_adddir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        filemgr_btn_adddir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filemgr_btn_adddirActionPerformed(evt);
+            }
+        });
         jToolBar1.add(filemgr_btn_adddir);
 
         filemgr_btn_clear.setText("清空");
@@ -262,6 +281,11 @@ public class StudioWindow extends javax.swing.JFrame {
         filemgr_btn_clear.setFocusable(false);
         filemgr_btn_clear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         filemgr_btn_clear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        filemgr_btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filemgr_btn_clearActionPerformed(evt);
+            }
+        });
         jToolBar1.add(filemgr_btn_clear);
 
         filemgr_btn_reload.setText("刷新");
@@ -269,8 +293,14 @@ public class StudioWindow extends javax.swing.JFrame {
         filemgr_btn_reload.setFocusable(false);
         filemgr_btn_reload.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         filemgr_btn_reload.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        filemgr_btn_reload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filemgr_btn_reloadActionPerformed(evt);
+            }
+        });
         jToolBar1.add(filemgr_btn_reload);
 
+        filemgr_list_files.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(filemgr_list_files);
 
         javax.swing.GroupLayout win_filemgrLayout = new javax.swing.GroupLayout(win_filemgr.getContentPane());
@@ -301,17 +331,29 @@ public class StudioWindow extends javax.swing.JFrame {
             }
         });
         jToolBar2.add(mainwin_btn_opendir);
-
-        mainwin_btn_newdir.setText("新建数据包文件夹");
-        mainwin_btn_newdir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        mainwin_btn_newdir.setFocusable(false);
-        mainwin_btn_newdir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        mainwin_btn_newdir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(mainwin_btn_newdir);
         jToolBar2.add(filler1);
 
+        lbl_stat.setForeground(java.awt.Color.blue);
         lbl_stat.setText("就绪。");
         jToolBar2.add(lbl_stat);
+
+        jButton2.setText("关于和更新");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jButton2);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/daranbookstudio/cc80x15.png"))); // NOI18N
+        jButton1.setToolTipText("");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton1);
 
         win_insert.setTitle("插入条目");
         win_insert.setVisible(true);
@@ -330,6 +372,11 @@ public class StudioWindow extends javax.swing.JFrame {
 
         index_btn_gbookinfo.setText("↓ 插入书籍信息 ↓");
         index_btn_gbookinfo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        index_btn_gbookinfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                index_btn_gbookinfoActionPerformed(evt);
+            }
+        });
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("<html>\n书籍信息必须在文件的前三行并且不能修改顺序，<p>\n请先插入书籍信息再插入文件列表。\n</html>");
@@ -342,6 +389,11 @@ public class StudioWindow extends javax.swing.JFrame {
 
         index_btn_gfilelist.setText("↓ 插入文件列表 ↓");
         index_btn_gfilelist.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        index_btn_gfilelist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                index_btn_gfilelistActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -399,26 +451,36 @@ public class StudioWindow extends javax.swing.JFrame {
 
         jLabel1.setText("自定义章名称（如果不是第一小节请不要修改）：");
 
-        jTextField1.setText("第？章 xxxxx");
-        jTextField1.setEnabled(false);
+        chapter_txt_chaptername.setText("第？章 xxxxx");
+        chapter_txt_chaptername.setEnabled(false);
 
-        jCheckBox1.setText("这是本章的第一节");
-        jCheckBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chapter_com_isone.setText("这是本章的第一节");
+        chapter_com_isone.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chapter_com_isone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chapter_com_isoneActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("自定义节名称：");
 
-        jTextField2.setText("第？节 xxxxx");
+        chapter_txt_sectionname.setText("第？节 xxxxx");
 
         jLabel5.setText("章号（纯数字）：");
 
-        jTextField3.setText("0");
+        chapter_txt_chapternum.setText("0");
 
         jLabel6.setText("节号（纯数字）：");
 
-        jTextField4.setText("2");
+        chapter_txt_sectionnum.setText("2");
 
-        jButton10.setText("↓ 插入章节名称信息 ↓");
-        jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chapter_btn_g.setText("↓ 插入章节名称信息 ↓");
+        chapter_btn_g.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chapter_btn_g.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chapter_btn_gActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -427,18 +489,18 @@ public class StudioWindow extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(chapter_btn_g, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chapter_com_isone)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField3)
+                            .addComponent(chapter_txt_chapternum)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField4))
+                            .addComponent(chapter_txt_sectionnum))
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
+                            .addComponent(chapter_txt_chaptername)
+                            .addComponent(chapter_txt_sectionname)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -450,26 +512,26 @@ public class StudioWindow extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(chapter_com_isone)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chapter_txt_chaptername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chapter_txt_chapternum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chapter_txt_sectionname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chapter_txt_sectionnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton10)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addComponent(chapter_btn_g)
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("章节名称生成", jPanel2);
@@ -480,14 +542,14 @@ public class StudioWindow extends javax.swing.JFrame {
 
         jLabel12.setText("图片标题：");
 
-        jTextField8.setText("未命名图片");
+        album_txt_picname.setText("未命名图片");
 
         jLabel13.setText("图片描述：");
 
-        jTextField9.setText("这个图片没有介绍");
+        album_txt_picinfo.setText("这个图片没有介绍");
 
-        jButton13.setText("↓ 添加一张图片到相册 ↓");
-        jButton13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        album_btn_g.setText("↓ 添加一张图片到相册 ↓");
+        album_btn_g.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -497,15 +559,15 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lst_pic1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField8)
-                    .addComponent(jTextField9)
+                    .addComponent(album_txt_picname)
+                    .addComponent(album_txt_picinfo)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE))
+                    .addComponent(album_btn_g, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -518,28 +580,28 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(album_txt_picname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(album_txt_picinfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton13)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addComponent(album_btn_g)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("相册图片列表生成", jPanel3);
 
         jLabel14.setText("关键字：");
 
-        jTextField10.setText("关键字");
+        keyword_txt_keyword.setText("关键字");
 
         jLabel15.setText("解释：");
 
-        jTextField11.setText("这是关键字");
+        keyword_txt_info.setText("这是关键字");
 
-        jButton15.setText("↓ 插入关键字信息 ↓");
-        jButton15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        keyword_btn_g.setText("↓ 插入关键字信息 ↓");
+        keyword_btn_g.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -548,16 +610,16 @@ public class StudioWindow extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField11)
+                    .addComponent(keyword_txt_info)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(keyword_txt_keyword, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel15))
                         .addGap(0, 740, Short.MAX_VALUE))
-                    .addComponent(jButton15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(keyword_btn_g, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -566,60 +628,60 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(keyword_txt_keyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(keyword_txt_info, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton15)
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addComponent(keyword_btn_g)
+                .addContainerGap(198, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("关键字解释生成", jPanel4);
 
         jLabel16.setText("选择题配置文件中第一行必须为题目组名称：");
 
-        jTextField12.setText("未命名选择题组");
+        choice_txt_name.setText("未命名选择题组");
 
-        jButton16.setText("↓ 插入选择题组名称 ↓");
-        jButton16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_btn_name.setText("↓ 插入选择题组名称 ↓");
+        choice_btn_name.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel17.setText("请在下面逐个添加选择题题目：");
 
         jLabel18.setText("题目：");
 
-        jTextField13.setText("1.问题？");
+        choice_txt_q.setText("1.问题？");
 
         jLabel19.setText("选项A：");
 
-        jTextField14.setText("A.");
+        choice_txt_a.setText("A.");
 
         jLabel20.setText("选项B：");
 
-        jTextField15.setText("B.");
+        choice_txt_b.setText("B.");
 
         jLabel21.setText("选项C：");
 
-        jTextField16.setText("C.");
+        choice_txt_c.setText("C.");
 
-        jTextField17.setText("D.");
+        choice_txt_d.setText("D.");
 
         jLabel22.setText("选项D：");
 
         jLabel23.setText("正确的选项是：");
 
-        jCheckBox2.setSelected(true);
-        jCheckBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_a.setSelected(true);
+        choice_com_a.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jCheckBox3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_b.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jCheckBox4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_c.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jCheckBox5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_d.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jButton17.setText("↓ 插入一个题目 ↓");
-        jButton17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_btn_q.setText("↓ 插入一个题目 ↓");
+        choice_btn_q.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -630,42 +692,40 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel20)
-                                .addGap(51, 51, 51)
-                                .addComponent(jTextField15))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addGap(51, 51, 51)
-                                .addComponent(jTextField14))
+                            .addComponent(choice_txt_c, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField13))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(choice_txt_d, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel20))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(choice_txt_b)
+                                    .addComponent(choice_txt_a)
+                                    .addComponent(choice_txt_q))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(choice_btn_q, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(choice_txt_name, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(choice_btn_name, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCheckBox4)
-                                        .addComponent(jCheckBox3)
-                                        .addComponent(jCheckBox5))
-                                    .addComponent(jCheckBox2))
+                                        .addComponent(choice_com_c)
+                                        .addComponent(choice_com_b)
+                                        .addComponent(choice_com_d))
+                                    .addComponent(choice_com_a))
                                 .addGap(51, 51, 51)))
                         .addContainerGap())))
         );
@@ -675,9 +735,9 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(choice_txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton16)
+                .addComponent(choice_btn_name)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -685,63 +745,63 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(choice_txt_q, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel19)
-                        .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBox2))
+                        .addComponent(choice_txt_a, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(choice_com_a))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel20)
-                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBox3))
+                        .addComponent(choice_txt_b, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(choice_com_b))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(choice_txt_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel21))
-                    .addComponent(jCheckBox4))
+                    .addComponent(choice_com_c))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox5)
+                    .addComponent(choice_com_d)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(choice_txt_d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel22)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton17)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addComponent(choice_btn_q)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("选择题生成", jPanel5);
 
         jLabel24.setText("分类题配置文件中第一行必须为题目：");
 
-        jTextField18.setText("未命名分类题");
+        classify_txt_name.setText("未命名分类题");
 
-        jButton18.setText("↓ 插入分类题名称 ↓");
-        jButton18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classify_btn_name.setText("↓ 插入分类题名称 ↓");
+        classify_btn_name.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel25.setText("注意，一共只能添加两个分类，每个分类有四张图片！");
 
         jLabel26.setText("分类A名称：");
 
-        jTextField19.setText("分类A");
+        classify_txt_typea.setText("分类A");
 
         jLabel27.setText("分类B名称：");
 
-        jTextField20.setText("分类B");
+        classify_txt_typeb.setText("分类B");
 
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("分类A");
-        jRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classify_rad_typea.setSelected(true);
+        classify_rad_typea.setText("分类A");
+        classify_rad_typea.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jRadioButton2.setText("分类B");
-        jRadioButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classify_rad_typeb.setText("分类B");
+        classify_rad_typeb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jTextField21.setText("未命名图片");
+        classify_txt_pic.setText("未命名图片");
 
         jLabel28.setText("图片名：");
 
@@ -761,8 +821,8 @@ public class StudioWindow extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField18)
-                    .addComponent(jButton18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(classify_txt_name)
+                    .addComponent(classify_btn_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -771,25 +831,27 @@ public class StudioWindow extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel26)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(classify_txt_typea, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(71, 71, 71)
                                 .addComponent(jLabel27)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButton2)
-                                    .addComponent(jRadioButton1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel28))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel29)
-                                    .addComponent(lst_pic2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(classify_txt_typeb, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel30))
-                        .addGap(0, 134, Short.MAX_VALUE)))
+                        .addGap(0, 134, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(classify_rad_typeb)
+                            .addComponent(classify_rad_typea))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addComponent(classify_txt_pic, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lst_pic2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel29)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -798,37 +860,37 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(classify_txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton18)
+                .addComponent(classify_btn_name)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(classify_txt_typea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27)
-                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(classify_txt_typeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addComponent(jLabel30)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
+                    .addComponent(classify_rad_typea)
                     .addComponent(jLabel28)
                     .addComponent(jLabel29))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(classify_rad_typeb)
+                    .addComponent(classify_txt_pic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lst_pic2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton19)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("分类题生成", jPanel6);
 
-        jLabel31.setText("此功能暂时不可用");
+        jLabel31.setText("请把章节图标以章号命名（例如1.png,2.png）后导入。");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -836,18 +898,18 @@ public class StudioWindow extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(784, Short.MAX_VALUE))
+                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("资料包打包和加密", jPanel7);
+        jTabbedPane1.addTab("章节图标", jPanel7);
 
         javax.swing.GroupLayout win_insertLayout = new javax.swing.GroupLayout(win_insert.getContentPane());
         win_insert.getContentPane().setLayout(win_insertLayout);
@@ -857,7 +919,7 @@ public class StudioWindow extends javax.swing.JFrame {
         );
         win_insertLayout.setVerticalGroup(
             win_insertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
         );
 
         win_fileedit.setTitle("文件编辑");
@@ -882,6 +944,11 @@ public class StudioWindow extends javax.swing.JFrame {
         fileedit_btn_clear.setFocusable(false);
         fileedit_btn_clear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileedit_btn_clear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        fileedit_btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileedit_btn_clearActionPerformed(evt);
+            }
+        });
         jToolBar3.add(fileedit_btn_clear);
 
         jLabel33.setText("新建文件名:");
@@ -895,6 +962,11 @@ public class StudioWindow extends javax.swing.JFrame {
         fileedit_btn_newfile.setFocusable(false);
         fileedit_btn_newfile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileedit_btn_newfile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        fileedit_btn_newfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileedit_btn_newfileActionPerformed(evt);
+            }
+        });
         jToolBar3.add(fileedit_btn_newfile);
 
         fileedit_btn_savenew.setText("存为新文件");
@@ -902,6 +974,11 @@ public class StudioWindow extends javax.swing.JFrame {
         fileedit_btn_savenew.setFocusable(false);
         fileedit_btn_savenew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileedit_btn_savenew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        fileedit_btn_savenew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileedit_btn_savenewActionPerformed(evt);
+            }
+        });
         jToolBar3.add(fileedit_btn_savenew);
         jToolBar3.add(filler2);
 
@@ -925,22 +1002,24 @@ public class StudioWindow extends javax.swing.JFrame {
         jLabel2.setText("强制使用UTF-8读写");
         jToolBar3.add(jLabel2);
 
-        fileedit_txt_edit.setEnabled(false);
-        jScrollPane2.setViewportView(fileedit_txt_edit);
+        fileedit_txt_edit.setColumns(20);
+        fileedit_txt_edit.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N
+        fileedit_txt_edit.setRows(5);
+        jScrollPane4.setViewportView(fileedit_txt_edit);
 
         javax.swing.GroupLayout win_fileeditLayout = new javax.swing.GroupLayout(win_fileedit.getContentPane());
         win_fileedit.getContentPane().setLayout(win_fileeditLayout);
         win_fileeditLayout.setHorizontalGroup(
             win_fileeditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane4)
         );
         win_fileeditLayout.setVerticalGroup(
             win_fileeditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(win_fileeditLayout.createSequentialGroup()
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2))
+                .addComponent(jScrollPane4))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -966,7 +1045,7 @@ public class StudioWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(win_fileedit))
                     .addComponent(win_filemgr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6))
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -974,46 +1053,109 @@ public class StudioWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void filemgr_btn_addfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_addfileActionPerformed
-        // TODO add your handling code here:
+        loadingOpen("正在添加文件");
+        JFileChooser fc = new JFileChooser();
+        int flag = 0;
+        File[] f = null;
+        try {
+            fc.setMultiSelectionEnabled(true);
+            flag = fc.showOpenDialog(null);
+        } catch (HeadlessException head) {
+            System.out.println("Open File Dialog ERROR!");
+        }
+        if (flag == JFileChooser.APPROVE_OPTION) {
+            //获得该文件
+            f = fc.getSelectedFiles();
+        }
+        if (f != null && f.length > 0) {
+            for (int i = 0; i < f.length; i++) {
+                File nowF = f[i];
+                String fromPath = nowF.getPath();
+                String toPath = dirAddress + separator + nowF.getName();
+                FileManager fm = new FileManager();
+                File file = new File(toPath);
+                Boolean isOK = false;
+                Boolean showErr = true;
+                if (file.exists()) {
+                    int option = JOptionPane.showConfirmDialog(null, "导入文件“" + fromPath + "”时发现资料夹中已经存在了一个相同文件名的文件，要覆盖资料夹中已有的“" + nowF.getName() + "”文件吗？\n（建议您记下这些名称重复的文件路径并选择否，之后手工把要导入的名字改名后重新导入。）", "重复的文件名", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null);
+                    switch (option) {
+                        case JOptionPane.YES_NO_OPTION: {
+                            isOK = fm.copyFile(fromPath, toPath);
+                            break;
+                        }
+                        case JOptionPane.NO_OPTION: {
+                            isOK = false;
+                            showErr = false;
+                            break;
+                        }
+                    }
+                } else {
+                    isOK = fm.copyFile(fromPath, toPath);
+                }
+                if (isOK) {
+                    lbl_stat.setText("已导入" + i + "个文件。");
+                } else {
+                    if (showErr) {
+                        JOptionPane.showMessageDialog(this, "未能从“" + fromPath + "”导入到“" + toPath + "”。请尝试手工复制文件。", "导入文件失败", JOptionPane.ERROR_MESSAGE);
+                        lbl_stat.setText("未能导入文件“" + nowF.getName() + "”。");
+                    } else {
+                        lbl_stat.setText("文件“" + nowF.getName() + "”因为重名而未被导入。");
+                    }
+                }
+            }
+            reload();
+        } else {
+            lbl_stat.setText("已取消选择。");
+        }
+        loadingClose();
     }//GEN-LAST:event_filemgr_btn_addfileActionPerformed
 
     private void mainwin_btn_opendirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainwin_btn_opendirActionPerformed
+        openDataDir();
+    }//GEN-LAST:event_mainwin_btn_opendirActionPerformed
+
+    public void openDataDir() {
         loadingOpen("正在统计文件");
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);//只能选择目录
-        String path=null;
+        String path = null;
         int flag = 0;
         File f = null;
-        try{     
-            flag=fc.showOpenDialog(null);     
-        }    
-        catch(HeadlessException head){     
-             System.out.println("Open File Dialog ERROR!");    
-        }        
-        if(flag==JFileChooser.APPROVE_OPTION){
-             //获得该文件
-            f=fc.getSelectedFile();    
-            path=f.getPath();
-         }
+        try {
+            flag = fc.showOpenDialog(null);
+        } catch (HeadlessException head) {
+            System.out.println("Open File Dialog ERROR!");
+        }
+        if (flag == JFileChooser.APPROVE_OPTION) {
+            //获得该文件
+            f = fc.getSelectedFile();
+            path = f.getPath();
+        }
         if (path != null && !path.equals("null")) {
             this.setTitle(softname + " - " + path);
-            lbl_stat.setText("已挂载文件夹：" + path + "。");
             dirAddress = path;
-            list(path, false, false);
+            listi = 0;
+            list(dirAddress, false, false, 1);
+            lbl_stat.setText("已挂载文件夹：" + path + "，导入了" + listi + "个文件。");
+            win_filemgr.setEnabled(true);
+            win_insert.setEnabled(true);
+            win_fileedit.setEnabled(true);
         } else {
             lbl_stat.setText("已取消选择。" + path);
+            loadingClose();
+            this.setVisible(false);
+            System.exit(0);
         }
         loadingClose();
-    }//GEN-LAST:event_mainwin_btn_opendirActionPerformed
-
+    }
+    
     private void convertEnter() {
         if (fileedit_chk_entermode.isSelected()) {
             fileedit_txt_edit.setText(fileedit_txt_edit.getText().replaceAll("\r\n", "\n"));
         }
     }
     
-    private void fileedit_btn_savefileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileedit_btn_savefileActionPerformed
-        loadingOpen("正在保存");
+    private void saveEditor() {
         BufferedWriter fw = null;
         convertEnter();
         try {
@@ -1022,22 +1164,249 @@ public class StudioWindow extends javax.swing.JFrame {
             fw.append(fileedit_txt_edit.getText());
             //fw.newLine();
             fw.flush(); // 全部写入缓存中的内容
+            lbl_stat.setText("已保存文件“" + nowtxtfile + "”。");
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"未能存储文件到“" + nowtxtfile + "”。", "存储失败", JOptionPane.ERROR_MESSAGE);
+            lbl_stat.setText("文件“" + nowtxtfile + "”保存失败。");
             e.printStackTrace();
         } finally {
             if (fw != null) {
                 try {
                     fw.close();
                 } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this,"文件“" + nowtxtfile + "”已存储，但是可能遇到了一些问题。建议重新开启本程序。", "推出失败", JOptionPane.WARNING_MESSAGE);
+                    lbl_stat.setText("文件“" + nowtxtfile + "”解除锁定失败。");
                     e.printStackTrace();
                 }
             }
         }
+    }
+    
+    private Boolean clearEditor() {
+        if (!fileedit_txt_edit.getText().equals("")) {
+            int leng = fileedit_txt_edit.getText().length();
+            int option = JOptionPane.showConfirmDialog(null,
+                    "清空下面框中的文字，确定吗？", "清空文本编辑器中的文字", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
+            switch (option) {
+                case JOptionPane.YES_NO_OPTION: {
+                    fileedit_txt_edit.setText("");
+                    lbl_stat.setText("删除了 "+ leng + " 个文字。");
+                    return true;
+                }
+                case JOptionPane.NO_OPTION: {
+                    //System.exit(0);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private void filemgr_btn_reloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_reloadActionPerformed
+        loadingOpen("正在刷新");
+        reload();
+        loadingClose();
+    }//GEN-LAST:event_filemgr_btn_reloadActionPerformed
+    
+    private void filemgr_btn_removefileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_removefileActionPerformed
+        loadingOpen("正在删除此文件");
+        int seleIndex = filemgr_list_files.getSelectedIndex();
+        if (seleIndex > 0) {
+            ListModel nowModel = filemgr_list_files.getModel();
+
+            Object nowElement = nowModel.getElementAt(seleIndex);
+            String nowFileName = nowElement.toString();
+            String fileAddress = dirAddress + separator + nowFileName;
+            int option = JOptionPane.showConfirmDialog(null,
+                    "确定要永久删除文件“" + fileAddress + "”吗？", "删除文件", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE, null);
+            switch (option) {
+                case JOptionPane.YES_NO_OPTION: {
+                    FileManager fm = new FileManager();
+                    Boolean isOK = fm.deleteFile(fileAddress);
+                    if (isOK) {
+                        lbl_stat.setText("已永久删除文件“"+ nowFileName + "”。");
+                    } else {
+                        lbl_stat.setText("未能删除文件“"+ nowFileName + "”。");
+                        JOptionPane.showMessageDialog(this, "未能删除“" + fileAddress + "”。请尝试手工删除。", "删除失败", JOptionPane.ERROR_MESSAGE);
+                    }
+                    reload();
+                    break;
+                }
+                case JOptionPane.NO_OPTION: {
+                    //System.exit(0);
+                    break;
+                }
+            }
+        }
+        loadingClose();
+    }//GEN-LAST:event_filemgr_btn_removefileActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        lbl_stat.setText("本作品采用知识共享署名 4.0 国际许可协议进行许可。");
+        try {
+            URI uri = new URI("https://creativecommons.org/licenses/by/4.0/deed.zh_TW");
+            Desktop.getDesktop().browse(uri);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void filemgr_btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_clearActionPerformed
+        loadingOpen("正在清空资料包");
+        if (dirAddress != null && !dirAddress.equals("null")) {
+            int option = JOptionPane.showConfirmDialog(null,
+                    "确定要永久删除资料包文件夹“" + dirAddress + "”中的所有文件吗？", "清空资料包", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE, null);
+            switch (option) {
+                case JOptionPane.YES_NO_OPTION: {
+                    FileManager fm = new FileManager();
+                    Boolean isOK = fm.deleteDirectory(dirAddress);
+                    if (isOK) {
+                        lbl_stat.setText("已清空资料夹“" + dirAddress + "”。");
+                    } else {
+                        lbl_stat.setText("未能删除资料夹“" + dirAddress + "”中一个或多个文件。");
+                        JOptionPane.showMessageDialog(this, "未能删除资料夹“" + dirAddress + "中一个或多个文件”。请尝试手工删除。", "删除失败", JOptionPane.ERROR_MESSAGE);
+                    }
+                    reload();
+                    break;
+                }
+                case JOptionPane.NO_OPTION: {
+                    //System.exit(0);
+                    break;
+                }
+            }
+        }
+        loadingClose();
+    }//GEN-LAST:event_filemgr_btn_clearActionPerformed
+
+    private void filemgr_btn_adddirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_adddirActionPerformed
+        loadingOpen("正在添加文件夹");
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);//只能选择目录
+        String path = null;
+        int flag = 0;
+        File f = null;
+        try {
+            flag = fc.showOpenDialog(null);
+        } catch (HeadlessException head) {
+            System.out.println("Open File Dialog ERROR!");
+        }
+        if (flag == JFileChooser.APPROVE_OPTION) {
+            //获得该文件
+            f = fc.getSelectedFile();
+            path = f.getPath();
+        }
+        if (path != null && !path.equals("null")) {
+            Boolean inChildDir = false;
+            int option = JOptionPane.showConfirmDialog(null, "是否需要包含“" + path + "”子文件夹中的所有文件？", "导入文件夹", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
+            switch (option) {
+                case JOptionPane.YES_NO_OPTION: {
+                    inChildDir = true;
+                    break;
+                }
+                case JOptionPane.NO_OPTION: {
+                    inChildDir = false;
+                    break;
+                }
+            }
+            listi = 0;
+            list(path, inChildDir, false, 2);
+            reload();
+        } else {
+            lbl_stat.setText("已取消选择。" + path);
+        }        
+        loadingClose();
+    }//GEN-LAST:event_filemgr_btn_adddirActionPerformed
+
+    private void fileedit_btn_savenewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileedit_btn_savenewActionPerformed
+        loadingOpen("正在另存为");
+        String fileAddress = dirAddress + separator + fileedit_txt_newfilename.getText();
+        win_fileedit.setTitle("文件编辑：" + fileAddress);
+        nowtxtfile = fileAddress;
+        saveEditor();
+        reload();
+        lbl_stat.setText("已另存为文件到“" + fileAddress + "”。");
+        loadingClose();
+    }//GEN-LAST:event_fileedit_btn_savenewActionPerformed
+
+    private void fileedit_btn_newfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileedit_btn_newfileActionPerformed
+        loadingOpen("正在新建文件");
+        Boolean isOK = clearEditor();
+        if (isOK) {
+            String fileAddress = dirAddress + separator + fileedit_txt_newfilename.getText();
+            win_fileedit.setTitle("文件编辑：" + fileAddress);
+            nowtxtfile = fileAddress;
+            saveEditor();
+            reload();
+            lbl_stat.setText("已新建文件“" + fileAddress + "”。");
+        }
+        loadingClose();
+    }//GEN-LAST:event_fileedit_btn_newfileActionPerformed
+
+    private void fileedit_btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileedit_btn_clearActionPerformed
+        clearEditor();
+    }//GEN-LAST:event_fileedit_btn_clearActionPerformed
+
+    private void fileedit_btn_savefileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileedit_btn_savefileActionPerformed
+        loadingOpen("正在保存");
+        saveEditor();
         loadingClose();
     }//GEN-LAST:event_fileedit_btn_savefileActionPerformed
 
-    private ArrayList<String> list(String filePath, boolean b_cdir, boolean b_dirname) {
-        listModel.removeAllElements();
+    private void index_btn_gbookinfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_index_btn_gbookinfoActionPerformed
+        loadingOpen("插入书籍信息");
+        String bookinfo = index_txt_zipname.getText() + "\n" + index_txt_author.getText() + "\n" + index_txt_press.getText();
+        fileedit_txt_edit.setText(bookinfo);
+        lbl_stat.setText("插入书籍信息完毕。");
+        loadingClose();
+    }//GEN-LAST:event_index_btn_gbookinfoActionPerformed
+
+    private void index_btn_gfilelistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_index_btn_gfilelistActionPerformed
+        loadingOpen("插入文件列表");
+        if (dirAddress != null && !dirAddress.equals("")) {
+            listi = 0;
+            list(dirAddress, false, false, 3);
+            lbl_stat.setText("插入文件列表完毕，生成了 " + listi + " 个条目。");
+        }
+        loadingClose();
+    }//GEN-LAST:event_index_btn_gfilelistActionPerformed
+
+    private void chapter_com_isoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chapter_com_isoneActionPerformed
+        chapter_txt_chaptername.setEnabled(chapter_com_isone.isSelected());
+        chapter_txt_sectionnum.setEnabled(!chapter_com_isone.isSelected());
+        if (chapter_com_isone.isSelected()) {
+            chapter_txt_sectionnum.setText("1");
+        }
+    }//GEN-LAST:event_chapter_com_isoneActionPerformed
+
+    private void chapter_btn_gActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chapter_btn_gActionPerformed
+        loadingOpen("插入章节名称信息");
+        String fileName = chapter_txt_chapternum.getText() + "-" + chapter_txt_sectionnum.getText() + ".txt";
+        if (chapter_com_isone.isSelected()) {
+            fileedit_txt_edit.setText(chapter_txt_chaptername.getText() + "\n" + chapter_txt_sectionname.getText());
+        } else {
+            fileedit_txt_edit.setText(chapter_txt_sectionname.getText());
+        }        
+        fileedit_txt_newfilename.setText(fileName);
+        lbl_stat.setText("插入章节名称信息完毕，请使用“" + fileName + "”文件名保存！");
+        loadingClose();
+    }//GEN-LAST:event_chapter_btn_gActionPerformed
+
+    private void reload() {
+        if (dirAddress != null && !dirAddress.equals("")) {
+            listi = 0;
+            list(dirAddress, false, false, 1);
+        }
+    }
+    
+    private ArrayList<String> list(String filePath, boolean b_cdir, boolean b_dirname, int endMode) {
+        if (endMode == 1) {
+            picModel.removeAllElements();
+            listModel.removeAllElements();
+        }
         ArrayList<String> filelist = new ArrayList<String>();
         String[] arr = null;
             File root = new File(filePath);
@@ -1045,25 +1414,52 @@ public class StudioWindow extends javax.swing.JFrame {
             for(File file:files){
                 if(file.isDirectory()){
                     if (b_cdir) {
-                        list(file.getAbsolutePath(), b_cdir, b_dirname);
+                        list(file.getAbsolutePath(), b_cdir, b_dirname, endMode);
                     }
                     if (b_dirname) {
                         System.out.println(file.getName());
                         filelist.add(file.getName());
                         //mw.setNum(false);
-                        addListItem(file.getName());
+                        addListItem(file, endMode);
                     }
                 } else {
                     System.out.println(file.getName());
                     filelist.add(file.getName());
                     //mw.setNum(false);
-                    addListItem(file.getName());
+                    addListItem(file, endMode);
                 }
             }
         return filelist;
     }
-    private void addListItem(String filename) {
-        listModel.addElement(filename);
+    private void addListItem(File file, int endMode) {
+        listi++;
+        switch (endMode) {
+            case 1: {
+                String nowFileName = file.getName();
+                listModel.addElement(nowFileName);
+                String typeName = nowFileName.substring(nowFileName.length()-4);
+                if (typeName.equals(".jpg") || typeName.equals(".png")) {
+                    picModel.addElement(nowFileName);
+                }
+                break;
+            }
+            case 2: {
+                String fromPath = file.getPath();
+                String toPath = dirAddress + separator + file.getName();
+                FileManager fm = new FileManager();
+                Boolean isOK = fm.copyFile(fromPath, toPath);
+                if (isOK) {
+                    lbl_stat.setText("已导入" + listi + "个文件。");
+                } else {
+                    JOptionPane.showMessageDialog(this, "未能从“" + fromPath + "”导入到“" + toPath + "”。请尝试手工复制文件。", "导入文件失败", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            }
+            case 3: {
+                fileedit_txt_edit.setText(fileedit_txt_edit.getText() + "\n" + file.getName());
+                break;
+            }
+        }
     }
     
     private void loadingOpen(String info) {
@@ -1113,12 +1509,40 @@ public class StudioWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton album_btn_g;
+    private javax.swing.JTextField album_txt_picinfo;
+    private javax.swing.JTextField album_txt_picname;
+    private javax.swing.JButton chapter_btn_g;
+    private javax.swing.JCheckBox chapter_com_isone;
+    private javax.swing.JTextField chapter_txt_chaptername;
+    private javax.swing.JTextField chapter_txt_chapternum;
+    private javax.swing.JTextField chapter_txt_sectionname;
+    private javax.swing.JTextField chapter_txt_sectionnum;
+    private javax.swing.JButton choice_btn_name;
+    private javax.swing.JButton choice_btn_q;
+    private javax.swing.JCheckBox choice_com_a;
+    private javax.swing.JCheckBox choice_com_b;
+    private javax.swing.JCheckBox choice_com_c;
+    private javax.swing.JCheckBox choice_com_d;
+    private javax.swing.JTextField choice_txt_a;
+    private javax.swing.JTextField choice_txt_b;
+    private javax.swing.JTextField choice_txt_c;
+    private javax.swing.JTextField choice_txt_d;
+    private javax.swing.JTextField choice_txt_name;
+    private javax.swing.JTextField choice_txt_q;
+    private javax.swing.JButton classify_btn_name;
+    private javax.swing.JRadioButton classify_rad_typea;
+    private javax.swing.JRadioButton classify_rad_typeb;
+    private javax.swing.JTextField classify_txt_name;
+    private javax.swing.JTextField classify_txt_pic;
+    private javax.swing.JTextField classify_txt_typea;
+    private javax.swing.JTextField classify_txt_typeb;
     private javax.swing.JButton fileedit_btn_clear;
     private javax.swing.JButton fileedit_btn_newfile;
     private javax.swing.JButton fileedit_btn_savefile;
     private javax.swing.JButton fileedit_btn_savenew;
     private javax.swing.JCheckBox fileedit_chk_entermode;
-    private javax.swing.JTextPane fileedit_txt_edit;
+    private javax.swing.JTextArea fileedit_txt_edit;
     private javax.swing.JTextField fileedit_txt_newfilename;
     private javax.swing.JButton filemgr_btn_adddir;
     private javax.swing.JButton filemgr_btn_addfile;
@@ -1133,18 +1557,9 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JTextField index_txt_author;
     private javax.swing.JTextField index_txt_press;
     private javax.swing.JTextField index_txt_zipname;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton19;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1186,36 +1601,18 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JButton keyword_btn_g;
+    private javax.swing.JTextField keyword_txt_info;
+    private javax.swing.JTextField keyword_txt_keyword;
     private javax.swing.JLabel lbl_stat;
     private javax.swing.JComboBox lst_pic1;
     private javax.swing.JComboBox lst_pic2;
-    private javax.swing.JButton mainwin_btn_newdir;
     private javax.swing.JButton mainwin_btn_opendir;
     private javax.swing.JInternalFrame win_fileedit;
     private javax.swing.JInternalFrame win_filemgr;
