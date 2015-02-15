@@ -93,7 +93,7 @@ public class WelcomeWindow extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("版本：1.0 (beta) ");
+        jLabel5.setText("版本：1.1 (beta) ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

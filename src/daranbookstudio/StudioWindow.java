@@ -7,6 +7,8 @@ package daranbookstudio;
 
 import java.awt.Desktop;
 import java.awt.HeadlessException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -25,6 +27,7 @@ import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 
@@ -32,38 +35,51 @@ import javax.swing.ListModel;
  *
  * @author 雅詩
  */
-
 public class StudioWindow extends javax.swing.JFrame {
 
     public LoadingWindow loadwin;
     private DefaultListModel listModel;
+    private DefaultListModel plistModel1;
+    private DefaultListModel plistModel2;
+    private DefaultListModel plistModel3;
     private DefaultComboBoxModel picModel;
     private String dirAddress;
     private String separator;
     private String nowtxtfile;
     private int listi;
-    
-    public String softname = "DaRanBookPackage Studio v1.0 beta";
+    private Boolean isFirst;
+
+    public String softname = "DaRanBookPackage Studio v1.1 beta";
+
     /**
      * Creates new form StudioWindow
      */
     public StudioWindow() {
         initComponents();
+        Image icon = new ImageIcon(getClass().getResource("logo.png")).getImage();
+        this.setIconImage(icon);
+        isFirst = true;
         loadwin = new LoadingWindow();
         loadwin.closewindow();
         lbl_stat.setText("请新建或打开一个数据包。使用较短的文件路径更容易编辑。");
         this.setTitle(softname + " - 尚未加载数据包文件夹");
-        System.out.println("os.name:"+System.getProperties().getProperty("os.name"));
+        System.out.println("os.name:" + System.getProperties().getProperty("os.name"));
         separator = System.getProperties().getProperty("file.separator");
         win_filemgr.setTitle(win_filemgr.getTitle() + "：" + System.getProperties().getProperty("os.name") + " 格式");
         win_fileedit.setTitle(win_fileedit.getTitle() + "：" + "没有打开文件，请在左侧列表选择要编辑的txt文件。");
         listModel = new DefaultListModel();
+        plistModel1 = new DefaultListModel();
+        plistModel2 = new DefaultListModel();
+        plistModel3 = new DefaultListModel();
         picModel = new DefaultComboBoxModel();
         filemgr_list_files.setModel(listModel);
+        plist_list1.setModel(plistModel1);
+        plist_list2.setModel(plistModel2);
+        plist_list3.setModel(plistModel3);
         lst_pic1.setModel(picModel);
         lst_pic2.setModel(picModel);
         //filemgr_list_files.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        filemgr_list_files.addMouseListener(new MouseAdapter() {         
+        filemgr_list_files.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
 //                if (e.getClickCount() == 1 && filemgr_list_files.getSelectedIndex() >= 0) {
 //                    oneClick(filemgr_list_files.getSelectedValue());
@@ -72,9 +88,41 @@ public class StudioWindow extends javax.swing.JFrame {
                     twoClick(filemgr_list_files.getSelectedValue());
                 }
             }
-        });              
+        });
+        plist_list1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1 && plist_list1.getSelectedIndex() >= 0) {
+                    oneClick(plist_list1.getSelectedIndex());
+                }
+            }
+        });
+        plist_list2.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1 && plist_list2.getSelectedIndex() >= 0) {
+                    oneClick(plist_list2.getSelectedIndex());
+                }
+            }
+        });
+        plist_list3.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1 && plist_list3.getSelectedIndex() >= 0) {
+                    oneClick(plist_list3.getSelectedIndex());
+                }
+            }
+        });
     }
-    
+
+    public void oneClick(int index) {
+        plist_list1.setSelectedIndex(index);
+        plist_list2.setSelectedIndex(index);
+        plist_list3.setSelectedIndex(index);
+        if (index == 0) {
+            plist_btn_delete.setEnabled(false);
+        } else {
+            plist_btn_delete.setEnabled(true);
+        }
+    }
+
     public void twoClick(Object value) {
         loadingOpen("正在打开文件");
         String fileAddress = dirAddress + separator + value.toString();
@@ -97,9 +145,9 @@ public class StudioWindow extends javax.swing.JFrame {
         }
         loadingClose();
     }
-    
-    private Boolean typeidtxt (String fileAddress) {
-        String typename = fileAddress.substring(fileAddress.length()-4);
+
+    private Boolean typeidtxt(String fileAddress) {
+        String typename = fileAddress.substring(fileAddress.length() - 4);
         if (typename.equals(".txt") || typename.equals(".TXT")) {
             fileedit_btn_savefile.setEnabled(true);
             fileedit_txt_edit.setEnabled(true);
@@ -196,6 +244,7 @@ public class StudioWindow extends javax.swing.JFrame {
         choice_com_c = new javax.swing.JCheckBox();
         choice_com_d = new javax.swing.JCheckBox();
         choice_btn_q = new javax.swing.JButton();
+        choice_txt_qid = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         classify_txt_name = new javax.swing.JTextField();
@@ -215,6 +264,25 @@ public class StudioWindow extends javax.swing.JFrame {
         jLabel30 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel34 = new javax.swing.JLabel();
+        plist_btn_browser = new javax.swing.JButton();
+        jLabel35 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        plist_list1 = new javax.swing.JList();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        plist_list2 = new javax.swing.JList();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        plist_list3 = new javax.swing.JList();
+        plist_txt1 = new javax.swing.JTextField();
+        plist_txt2 = new javax.swing.JTextField();
+        plist_txt3 = new javax.swing.JTextField();
+        plist_btn_insert = new javax.swing.JButton();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        plist_btn_delete = new javax.swing.JButton();
+        plist_btn_clear = new javax.swing.JButton();
+        plist_btn_gplist = new javax.swing.JButton();
         win_fileedit = new javax.swing.JInternalFrame();
         jToolBar3 = new javax.swing.JToolBar();
         fileedit_btn_savefile = new javax.swing.JButton();
@@ -232,7 +300,9 @@ public class StudioWindow extends javax.swing.JFrame {
         fileedit_txt_edit = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Loading");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         win_filemgr.setTitle("文件管理器");
         win_filemgr.setVisible(true);
@@ -341,6 +411,11 @@ public class StudioWindow extends javax.swing.JFrame {
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar2.add(jButton2);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/daranbookstudio/cc80x15.png"))); // NOI18N
@@ -531,7 +606,7 @@ public class StudioWindow extends javax.swing.JFrame {
                     .addComponent(chapter_txt_sectionnum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chapter_btn_g)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("章节名称生成", jPanel2);
@@ -550,6 +625,11 @@ public class StudioWindow extends javax.swing.JFrame {
 
         album_btn_g.setText("↓ 添加一张图片到相册 ↓");
         album_btn_g.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        album_btn_g.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                album_btn_gActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -587,7 +667,7 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addComponent(album_txt_picinfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(album_btn_g)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("相册图片列表生成", jPanel3);
@@ -602,6 +682,11 @@ public class StudioWindow extends javax.swing.JFrame {
 
         keyword_btn_g.setText("↓ 插入关键字信息 ↓");
         keyword_btn_g.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        keyword_btn_g.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keyword_btn_gActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -635,7 +720,7 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addComponent(keyword_txt_info, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(keyword_btn_g)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("关键字解释生成", jPanel4);
@@ -646,12 +731,17 @@ public class StudioWindow extends javax.swing.JFrame {
 
         choice_btn_name.setText("↓ 插入选择题组名称 ↓");
         choice_btn_name.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_btn_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choice_btn_nameActionPerformed(evt);
+            }
+        });
 
         jLabel17.setText("请在下面逐个添加选择题题目：");
 
         jLabel18.setText("题目：");
 
-        choice_txt_q.setText("1.问题？");
+        choice_txt_q.setText("问题？");
 
         jLabel19.setText("选项A：");
 
@@ -673,15 +763,42 @@ public class StudioWindow extends javax.swing.JFrame {
 
         choice_com_a.setSelected(true);
         choice_com_a.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_a.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choice_com_aActionPerformed(evt);
+            }
+        });
 
         choice_com_b.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_b.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choice_com_bActionPerformed(evt);
+            }
+        });
 
         choice_com_c.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choice_com_cActionPerformed(evt);
+            }
+        });
 
         choice_com_d.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_com_d.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choice_com_dActionPerformed(evt);
+            }
+        });
 
         choice_btn_q.setText("↓ 插入一个题目 ↓");
         choice_btn_q.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        choice_btn_q.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                choice_btn_qActionPerformed(evt);
+            }
+        });
+
+        choice_txt_qid.setText("1");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -708,7 +825,10 @@ public class StudioWindow extends javax.swing.JFrame {
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(choice_txt_b)
                                     .addComponent(choice_txt_a)
-                                    .addComponent(choice_txt_q))))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(choice_txt_qid, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(choice_txt_q)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addGap(26, 26, 26))
@@ -745,7 +865,8 @@ public class StudioWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(choice_txt_q, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(choice_txt_q, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(choice_txt_qid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -772,7 +893,7 @@ public class StudioWindow extends javax.swing.JFrame {
                         .addComponent(jLabel22)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(choice_btn_q)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("选择题生成", jPanel5);
@@ -783,6 +904,11 @@ public class StudioWindow extends javax.swing.JFrame {
 
         classify_btn_name.setText("↓ 插入分类题名称 ↓");
         classify_btn_name.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classify_btn_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classify_btn_nameActionPerformed(evt);
+            }
+        });
 
         jLabel25.setText("注意，一共只能添加两个分类，每个分类有四张图片！");
 
@@ -797,9 +923,19 @@ public class StudioWindow extends javax.swing.JFrame {
         classify_rad_typea.setSelected(true);
         classify_rad_typea.setText("分类A");
         classify_rad_typea.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classify_rad_typea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classify_rad_typeaActionPerformed(evt);
+            }
+        });
 
         classify_rad_typeb.setText("分类B");
         classify_rad_typeb.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classify_rad_typeb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classify_rad_typebActionPerformed(evt);
+            }
+        });
 
         classify_txt_pic.setText("未命名图片");
 
@@ -811,6 +947,11 @@ public class StudioWindow extends javax.swing.JFrame {
 
         jButton19.setText("↓ 插入一张图片 ↓");
         jButton19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
 
         jLabel30.setText("加入图片：");
 
@@ -885,7 +1026,7 @@ public class StudioWindow extends javax.swing.JFrame {
                     .addComponent(lst_pic2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton19)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("分类题生成", jPanel6);
@@ -906,10 +1047,146 @@ public class StudioWindow extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("章节图标", jPanel7);
+
+        jLabel34.setText("该功能用于iOS版软件测试。请从要导入数据包的设备中提取文件“MyBook.plist”并打开它：");
+
+        plist_btn_browser.setText("打开“MyBook.plist”文件...");
+        plist_btn_browser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plist_btn_browserActionPerformed(evt);
+            }
+        });
+
+        jLabel35.setText("书籍名称（bName）");
+
+        plist_list1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(plist_list1);
+
+        plist_list2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(plist_list2);
+
+        plist_list3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane5.setViewportView(plist_list3);
+
+        plist_txt1.setText("未命名书籍");
+
+        plist_txt2.setText("noname.png");
+
+        plist_txt3.setText("http://127.0.0.1/test/noname.zip");
+
+        plist_btn_insert.setText("插入行");
+        plist_btn_insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plist_btn_insertActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setText("书籍封面图片文件名（bPicture）");
+
+        jLabel37.setText("书籍来源网址（bWeb）");
+
+        plist_btn_delete.setText("删除选择");
+        plist_btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plist_btn_deleteActionPerformed(evt);
+            }
+        });
+
+        plist_btn_clear.setText("清空");
+        plist_btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plist_btn_clearActionPerformed(evt);
+            }
+        });
+
+        plist_btn_gplist.setText("↓ 生成“MyBook.plist” ↓");
+        plist_btn_gplist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plist_btn_gplistActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(plist_btn_gplist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(plist_txt1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(plist_txt2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(plist_txt3))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel36))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addComponent(jLabel37)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(plist_btn_insert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(plist_btn_delete, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(plist_btn_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel35)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(plist_btn_browser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(plist_btn_browser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane5)
+                            .addComponent(jScrollPane3)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(plist_txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(plist_txt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(plist_txt3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(plist_btn_insert)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(plist_btn_delete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(plist_btn_clear)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plist_btn_gplist)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("plist文件编辑", jPanel8);
 
         javax.swing.GroupLayout win_insertLayout = new javax.swing.GroupLayout(win_insert.getContentPane());
         win_insert.getContentPane().setLayout(win_insertLayout);
@@ -919,7 +1196,7 @@ public class StudioWindow extends javax.swing.JFrame {
         );
         win_insertLayout.setVerticalGroup(
             win_insertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
         );
 
         win_fileedit.setTitle("文件编辑");
@@ -954,7 +1231,7 @@ public class StudioWindow extends javax.swing.JFrame {
         jLabel33.setText("新建文件名:");
         jToolBar3.add(jLabel33);
 
-        fileedit_txt_newfilename.setText("新建配置文件.txt");
+        fileedit_txt_newfilename.setText("newfile.txt");
         jToolBar3.add(fileedit_txt_newfilename);
 
         fileedit_btn_newfile.setText("新建文件");
@@ -1137,24 +1414,27 @@ public class StudioWindow extends javax.swing.JFrame {
             listi = 0;
             list(dirAddress, false, false, 1);
             lbl_stat.setText("已挂载文件夹：" + path + "，导入了" + listi + "个文件。");
+            isFirst = false;
             win_filemgr.setEnabled(true);
             win_insert.setEnabled(true);
             win_fileedit.setEnabled(true);
         } else {
             lbl_stat.setText("已取消选择。" + path);
-            loadingClose();
-            this.setVisible(false);
-            System.exit(0);
+            if (isFirst) {
+                loadingClose();
+                this.setVisible(false);
+                System.exit(0);
+            }
         }
         loadingClose();
     }
-    
+
     private void convertEnter() {
         if (fileedit_chk_entermode.isSelected()) {
             fileedit_txt_edit.setText(fileedit_txt_edit.getText().replaceAll("\r\n", "\n"));
         }
     }
-    
+
     private void saveEditor() {
         BufferedWriter fw = null;
         convertEnter();
@@ -1166,7 +1446,7 @@ public class StudioWindow extends javax.swing.JFrame {
             fw.flush(); // 全部写入缓存中的内容
             lbl_stat.setText("已保存文件“" + nowtxtfile + "”。");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"未能存储文件到“" + nowtxtfile + "”。", "存储失败", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "未能存储文件到“" + nowtxtfile + "”。", "存储失败", JOptionPane.ERROR_MESSAGE);
             lbl_stat.setText("文件“" + nowtxtfile + "”保存失败。");
             e.printStackTrace();
         } finally {
@@ -1174,14 +1454,14 @@ public class StudioWindow extends javax.swing.JFrame {
                 try {
                     fw.close();
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(this,"文件“" + nowtxtfile + "”已存储，但是可能遇到了一些问题。建议重新开启本程序。", "推出失败", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "文件“" + nowtxtfile + "”已存储，但是可能遇到了一些问题。建议重新开启本程序。", "推出失败", JOptionPane.WARNING_MESSAGE);
                     lbl_stat.setText("文件“" + nowtxtfile + "”解除锁定失败。");
                     e.printStackTrace();
                 }
             }
         }
     }
-    
+
     private Boolean clearEditor() {
         if (!fileedit_txt_edit.getText().equals("")) {
             int leng = fileedit_txt_edit.getText().length();
@@ -1190,7 +1470,7 @@ public class StudioWindow extends javax.swing.JFrame {
             switch (option) {
                 case JOptionPane.YES_NO_OPTION: {
                     fileedit_txt_edit.setText("");
-                    lbl_stat.setText("删除了 "+ leng + " 个文字。");
+                    lbl_stat.setText("删除了 " + leng + " 个文字。");
                     return true;
                 }
                 case JOptionPane.NO_OPTION: {
@@ -1201,13 +1481,13 @@ public class StudioWindow extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     private void filemgr_btn_reloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_reloadActionPerformed
         loadingOpen("正在刷新");
         reload();
         loadingClose();
     }//GEN-LAST:event_filemgr_btn_reloadActionPerformed
-    
+
     private void filemgr_btn_removefileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filemgr_btn_removefileActionPerformed
         loadingOpen("正在删除此文件");
         int seleIndex = filemgr_list_files.getSelectedIndex();
@@ -1225,9 +1505,9 @@ public class StudioWindow extends javax.swing.JFrame {
                     FileManager fm = new FileManager();
                     Boolean isOK = fm.deleteFile(fileAddress);
                     if (isOK) {
-                        lbl_stat.setText("已永久删除文件“"+ nowFileName + "”。");
+                        lbl_stat.setText("已永久删除文件“" + nowFileName + "”。");
                     } else {
-                        lbl_stat.setText("未能删除文件“"+ nowFileName + "”。");
+                        lbl_stat.setText("未能删除文件“" + nowFileName + "”。");
                         JOptionPane.showMessageDialog(this, "未能删除“" + fileAddress + "”。请尝试手工删除。", "删除失败", JOptionPane.ERROR_MESSAGE);
                     }
                     reload();
@@ -1317,7 +1597,7 @@ public class StudioWindow extends javax.swing.JFrame {
             reload();
         } else {
             lbl_stat.setText("已取消选择。" + path);
-        }        
+        }
         loadingClose();
     }//GEN-LAST:event_filemgr_btn_adddirActionPerformed
 
@@ -1328,6 +1608,8 @@ public class StudioWindow extends javax.swing.JFrame {
         nowtxtfile = fileAddress;
         saveEditor();
         reload();
+        fileedit_txt_edit.setEnabled(true);
+        fileedit_btn_savefile.setEnabled(true);
         lbl_stat.setText("已另存为文件到“" + fileAddress + "”。");
         loadingClose();
     }//GEN-LAST:event_fileedit_btn_savenewActionPerformed
@@ -1341,6 +1623,8 @@ public class StudioWindow extends javax.swing.JFrame {
             nowtxtfile = fileAddress;
             saveEditor();
             reload();
+            fileedit_txt_edit.setEnabled(true);
+            fileedit_btn_savefile.setEnabled(true);
             lbl_stat.setText("已新建文件“" + fileAddress + "”。");
         }
         loadingClose();
@@ -1360,7 +1644,7 @@ public class StudioWindow extends javax.swing.JFrame {
         loadingOpen("插入书籍信息");
         String bookinfo = index_txt_zipname.getText() + "\n" + index_txt_author.getText() + "\n" + index_txt_press.getText();
         fileedit_txt_edit.setText(bookinfo);
-        lbl_stat.setText("插入书籍信息完毕。");
+        lbl_stat.setText("插入“" + index_txt_zipname.getText() + "”书籍信息完毕。");
         loadingClose();
     }//GEN-LAST:event_index_btn_gbookinfoActionPerformed
 
@@ -1389,11 +1673,249 @@ public class StudioWindow extends javax.swing.JFrame {
             fileedit_txt_edit.setText(chapter_txt_chaptername.getText() + "\n" + chapter_txt_sectionname.getText());
         } else {
             fileedit_txt_edit.setText(chapter_txt_sectionname.getText());
-        }        
+        }
         fileedit_txt_newfilename.setText(fileName);
         lbl_stat.setText("插入章节名称信息完毕，请使用“" + fileName + "”文件名保存！");
         loadingClose();
     }//GEN-LAST:event_chapter_btn_gActionPerformed
+
+    private void album_btn_gActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_album_btn_gActionPerformed
+        loadingOpen("新增图片到相册");
+        if (fileedit_txt_edit.getText().length() > 13) {
+            fileedit_txt_edit.setText(fileedit_txt_edit.getText() + "\n");
+        } else {
+            fileedit_txt_edit.setText("");
+        }
+        fileedit_txt_edit.setText(fileedit_txt_edit.getText() + lst_pic1.getSelectedItem().toString() + "---" + album_txt_picname.getText() + "---" + album_txt_picinfo.getText());
+        lbl_stat.setText("新增图片“" + lst_pic1.getSelectedItem().toString() + "”到相册完毕。");
+        loadingClose();
+    }//GEN-LAST:event_album_btn_gActionPerformed
+
+    private void keyword_btn_gActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyword_btn_gActionPerformed
+        loadingOpen("新增关键字解释");
+        fileedit_txt_edit.setText(keyword_txt_keyword.getText() + "---" + keyword_txt_info.getText());
+        lbl_stat.setText("新增关键字“" + keyword_txt_keyword.getText() + "”解释完毕。");
+        loadingClose();
+    }//GEN-LAST:event_keyword_btn_gActionPerformed
+
+    private void choice_com_aActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choice_com_aActionPerformed
+        choice_com_b.setSelected(false);
+        choice_com_c.setSelected(false);
+        choice_com_d.setSelected(false);
+        choice_com_a.setSelected(true);
+    }//GEN-LAST:event_choice_com_aActionPerformed
+
+    private void choice_com_bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choice_com_bActionPerformed
+        choice_com_a.setSelected(false);
+        choice_com_c.setSelected(false);
+        choice_com_d.setSelected(false);
+        choice_com_b.setSelected(true);
+    }//GEN-LAST:event_choice_com_bActionPerformed
+
+    private void choice_com_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choice_com_cActionPerformed
+        choice_com_b.setSelected(false);
+        choice_com_a.setSelected(false);
+        choice_com_d.setSelected(false);
+        choice_com_c.setSelected(true);
+    }//GEN-LAST:event_choice_com_cActionPerformed
+
+    private void choice_com_dActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choice_com_dActionPerformed
+        choice_com_b.setSelected(false);
+        choice_com_c.setSelected(false);
+        choice_com_a.setSelected(false);
+        choice_com_d.setSelected(true);
+    }//GEN-LAST:event_choice_com_dActionPerformed
+
+    private void classify_rad_typeaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classify_rad_typeaActionPerformed
+        classify_rad_typea.setSelected(true);
+        classify_rad_typeb.setSelected(false);
+    }//GEN-LAST:event_classify_rad_typeaActionPerformed
+
+    private void classify_rad_typebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classify_rad_typebActionPerformed
+        classify_rad_typea.setSelected(false);
+        classify_rad_typeb.setSelected(true);
+    }//GEN-LAST:event_classify_rad_typebActionPerformed
+
+    private void choice_btn_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choice_btn_nameActionPerformed
+        loadingOpen("插入选择题名称");
+        fileedit_txt_edit.setText(choice_txt_name.getText());
+        lbl_stat.setText("插入选择题名称“" + choice_txt_name.getText() + "”完毕。");
+        loadingClose();
+    }//GEN-LAST:event_choice_btn_nameActionPerformed
+
+    private void choice_btn_qActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choice_btn_qActionPerformed
+        loadingOpen("插入选择题");
+        String y = "APP_ERR";
+        if (choice_com_a.isSelected()) {
+            y = "A";
+        } else if (choice_com_b.isSelected()) {
+            y = "B";
+        } else if (choice_com_c.isSelected()) {
+            y = "C";
+        } else if (choice_com_d.isSelected()) {
+            y = "D";
+        }
+        String q = choice_txt_qid.getText() + "." + choice_txt_q.getText();
+        fileedit_txt_edit.setText(fileedit_txt_edit.getText() + "\n" + q + "---" + y + "---" + choice_txt_a.getText() + "---" + choice_txt_b.getText() + "---" + choice_txt_c.getText() + "---" + choice_txt_d.getText());
+        int nqid = Integer.parseInt(choice_txt_qid.getText());
+        nqid++;
+        String nqids = Integer.toString(nqid);
+        choice_txt_qid.setText(nqids);
+        lbl_stat.setText("插入选择题“" + q + "”（正确答案" + y + "）完毕。下一题的题号大概是 " + nqids + ".");
+        loadingClose();
+    }//GEN-LAST:event_choice_btn_qActionPerformed
+
+    private void classify_btn_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classify_btn_nameActionPerformed
+        loadingOpen("插入分类题名称");
+        fileedit_txt_edit.setText(classify_txt_name.getText());
+        lbl_stat.setText("插入分类题名称“" + classify_txt_name.getText() + "”完毕。");
+        loadingClose();
+    }//GEN-LAST:event_classify_btn_nameActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        loadingOpen("插入分类题图片");
+        String y = "APP_ERR";
+        if (classify_rad_typea.isSelected()) {
+            y = classify_txt_typea.getText();
+        } else if (classify_rad_typeb.isSelected()) {
+            y = classify_txt_typeb.getText();
+        }
+        fileedit_txt_edit.setText(fileedit_txt_edit.getText() + "\n" + y + "---" + classify_txt_pic.getText() + "---" + lst_pic2.getSelectedItem().toString());
+        lbl_stat.setText("插入分类题图片“" + lst_pic2.getSelectedItem().toString() + "”完毕。");
+        loadingClose();
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void plist_btn_browserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plist_btn_browserActionPerformed
+        loadingOpen("正在打开plist");
+        JFileChooser fc = new JFileChooser();
+        int flag = 0;
+        File f = null;
+        try {
+            fc.setMultiSelectionEnabled(false);
+            flag = fc.showOpenDialog(null);
+        } catch (HeadlessException head) {
+            System.out.println("Open File Dialog ERROR!");
+        }
+        if (flag == JFileChooser.APPROVE_OPTION) {
+            //获得该文件
+            f = fc.getSelectedFile();
+            if (f != null) {
+                if (f.getName().equals("MyBook.plist")) {
+                    String fileAddress = f.getPath();
+                    win_fileedit.setTitle("文件编辑：" + fileAddress);
+                    nowtxtfile = fileAddress;
+                    BufferedReader reader;
+                    Boolean readOK = false;
+                    try {
+                        fileedit_txt_edit.setText("");
+                        reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileAddress), "UTF-8")); // 指定读取文件的编码格式，要和写入的格式一致，以免出现中文乱码,
+                        String str = null;
+                        while ((str = reader.readLine()) != null) {
+                            fileedit_txt_edit.setText(fileedit_txt_edit.getText() + str + "\n");
+                        }
+                        reader.close();
+                        fileedit_btn_savefile.setEnabled(true);
+                        fileedit_txt_edit.setEnabled(true);
+                        fileedit_txt_newfilename.setText(f.getName());
+                        readOK = true;
+                        int keyid = 1; //String[] keyword = {"bName","bPicture","bWeb"};
+                        SearchKeyword sh = new SearchKeyword();
+                        ArrayList<String> words = sh.schHtmValume(fileedit_txt_edit.getText(), "<string>", "</string>");
+                        for (int i = 0; i < words.size(); i++) {
+                            String nowWord = words.get(i);
+                            if (keyid == 1) {
+                                plistModel1.addElement(nowWord);
+                                keyid++;
+                            } else if (keyid == 2) {
+                                plistModel2.addElement(nowWord);
+                                keyid++;
+                            } else if (keyid == 3) {
+                                plistModel3.addElement(nowWord);
+                                keyid = 1;
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (readOK) {
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "plist文件“" + f.getPath() + "”解析失败。", "文件不能导入", JOptionPane.ERROR_MESSAGE);
+                        lbl_stat.setText("plist文件“" + f.getName() + "”解析失败。");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "只能选择“MyBook.plist”文件！", "文件不能导入", JOptionPane.ERROR_MESSAGE);
+                    lbl_stat.setText("只能选择“MyBook.plist”文件！");
+                }
+            }
+        }
+        loadingClose();
+    }//GEN-LAST:event_plist_btn_browserActionPerformed
+
+    private void plist_btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plist_btn_clearActionPerformed
+//        for (int i = 1; i < plistModel1.size(); i++) {
+//            plistModel1.removeElementAt(i);
+//            plistModel2.removeElementAt(i);
+//            plistModel3.removeElementAt(i);
+//        }
+        plistModel1.removeAllElements();
+        plistModel2.removeAllElements();
+        plistModel3.removeAllElements();
+        plistModel1.addElement("book1");
+        plistModel2.addElement("demobook.png");
+        plistModel3.addElement("http://##");
+        //gplist();
+    }//GEN-LAST:event_plist_btn_clearActionPerformed
+
+    private void plist_btn_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plist_btn_insertActionPerformed
+        plistModel1.addElement(plist_txt1.getText());
+        plistModel2.addElement(plist_txt2.getText());
+        plistModel3.addElement(plist_txt3.getText());
+        //gplist();
+    }//GEN-LAST:event_plist_btn_insertActionPerformed
+
+    private void plist_btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plist_btn_deleteActionPerformed
+        plist_btn_delete.setEnabled(false);
+        int nowSelect = plist_list1.getSelectedIndex();
+        plist_list1.setSelectedIndex(0);
+        plist_list2.setSelectedIndex(0);
+        plist_list3.setSelectedIndex(0);
+        plistModel1.removeElementAt(nowSelect);
+        plistModel2.removeElementAt(nowSelect);
+        plistModel3.removeElementAt(nowSelect);
+        //gplist();
+    }//GEN-LAST:event_plist_btn_deleteActionPerformed
+
+    private void plist_btn_gplistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plist_btn_gplistActionPerformed
+        loadingOpen("正在生成plist");
+        gplist();
+        //saveEditor();
+        loadingClose();
+    }//GEN-LAST:event_plist_btn_gplistActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        lbl_stat.setText("by 神楽坂雅詩（CXC）");
+        try {
+            URI uri = new URI("https://uuu.moe/?p=1596");
+            Desktop.getDesktop().browse(uri);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void gplist() {
+        String newplist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<array>";
+        for (int i = 0; i < plistModel1.size(); i++) {
+            newplist = newplist + "\n	<dict>\n		<key>bName</key>\n		<string>" + plistModel1.getElementAt(i) + "</string>\n		<key>bPicture</key>\n		<string>" + plistModel2.getElementAt(i) + "</string>\n		<key>bWeb</key>\n		<string>" + plistModel3.getElementAt(i) + "</string>\n	</dict>";
+        }
+        newplist = newplist + "\n</array>\n</plist>";
+        fileedit_txt_edit.setText(newplist);
+        //return newplist;
+    }
 
     private void reload() {
         if (dirAddress != null && !dirAddress.equals("")) {
@@ -1401,7 +1923,7 @@ public class StudioWindow extends javax.swing.JFrame {
             list(dirAddress, false, false, 1);
         }
     }
-    
+
     private ArrayList<String> list(String filePath, boolean b_cdir, boolean b_dirname, int endMode) {
         if (endMode == 1) {
             picModel.removeAllElements();
@@ -1409,35 +1931,34 @@ public class StudioWindow extends javax.swing.JFrame {
         }
         ArrayList<String> filelist = new ArrayList<String>();
         String[] arr = null;
-            File root = new File(filePath);
-            File[] files = root.listFiles();
-            for(File file:files){
-                if(file.isDirectory()){
-                    if (b_cdir) {
-                        list(file.getAbsolutePath(), b_cdir, b_dirname, endMode);
-                    }
-                    if (b_dirname) {
-                        System.out.println(file.getName());
-                        filelist.add(file.getName());
-                        //mw.setNum(false);
-                        addListItem(file, endMode);
-                    }
-                } else {
-                    System.out.println(file.getName());
+        File root = new File(filePath);
+        File[] files = root.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                if (b_cdir) {
+                    list(file.getAbsolutePath(), b_cdir, b_dirname, endMode);
+                }
+                if (b_dirname) {
                     filelist.add(file.getName());
                     //mw.setNum(false);
                     addListItem(file, endMode);
                 }
+            } else {
+                filelist.add(file.getName());
+                //mw.setNum(false);
+                addListItem(file, endMode);
             }
+        }
         return filelist;
     }
+
     private void addListItem(File file, int endMode) {
         listi++;
         switch (endMode) {
             case 1: {
                 String nowFileName = file.getName();
                 listModel.addElement(nowFileName);
-                String typeName = nowFileName.substring(nowFileName.length()-4);
+                String typeName = nowFileName.substring(nowFileName.length() - 4);
                 if (typeName.equals(".jpg") || typeName.equals(".png")) {
                     picModel.addElement(nowFileName);
                 }
@@ -1461,18 +1982,19 @@ public class StudioWindow extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void loadingOpen(String info) {
         this.setEnabled(false);
         loadwin.openwindow(info);
     }
+
     private void loadingClose() {
         this.setEnabled(true);
         this.requestFocus();
         loadwin.closewindow();
-        
-    } 
-    
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1530,6 +2052,7 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JTextField choice_txt_d;
     private javax.swing.JTextField choice_txt_name;
     private javax.swing.JTextField choice_txt_q;
+    private javax.swing.JTextField choice_txt_qid;
     private javax.swing.JButton classify_btn_name;
     private javax.swing.JRadioButton classify_rad_typea;
     private javax.swing.JRadioButton classify_rad_typeb;
@@ -1588,6 +2111,10 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1601,8 +2128,12 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
@@ -1614,6 +2145,17 @@ public class StudioWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox lst_pic1;
     private javax.swing.JComboBox lst_pic2;
     private javax.swing.JButton mainwin_btn_opendir;
+    private javax.swing.JButton plist_btn_browser;
+    private javax.swing.JButton plist_btn_clear;
+    private javax.swing.JButton plist_btn_delete;
+    private javax.swing.JButton plist_btn_gplist;
+    private javax.swing.JButton plist_btn_insert;
+    private javax.swing.JList plist_list1;
+    private javax.swing.JList plist_list2;
+    private javax.swing.JList plist_list3;
+    private javax.swing.JTextField plist_txt1;
+    private javax.swing.JTextField plist_txt2;
+    private javax.swing.JTextField plist_txt3;
     private javax.swing.JInternalFrame win_fileedit;
     private javax.swing.JInternalFrame win_filemgr;
     private javax.swing.JInternalFrame win_insert;

@@ -3,9 +3,11 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="Loading"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
       <Color id="&#x9ed8;&#x8ba4;&#x5149;&#x6807;"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -225,6 +227,9 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
@@ -256,7 +261,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jTabbedPane1" alignment="0" pref="351" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" alignment="0" pref="369" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -476,7 +481,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="chapter_btn_g" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="160" max="32767" attributes="0"/>
+                          <EmptySpace pref="178" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -596,7 +601,7 @@
                           <Component id="album_txt_picinfo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="album_btn_g" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="133" max="32767" attributes="0"/>
+                          <EmptySpace pref="151" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -644,6 +649,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="album_btn_gActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -694,7 +702,7 @@
                           <Component id="keyword_txt_info" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="keyword_btn_g" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="198" max="32767" attributes="0"/>
+                          <EmptySpace pref="216" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -727,6 +735,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="keyword_btn_gActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -765,7 +776,11 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="choice_txt_b" max="32767" attributes="0"/>
                                               <Component id="choice_txt_a" max="32767" attributes="0"/>
-                                              <Component id="choice_txt_q" max="32767" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="choice_txt_qid" min="-2" pref="44" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="choice_txt_q" max="32767" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -816,6 +831,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="choice_txt_q" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="choice_txt_qid" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -851,7 +867,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="choice_btn_q" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="40" max="32767" attributes="0"/>
+                          <EmptySpace pref="58" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -874,6 +890,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choice_btn_nameActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel17">
                   <Properties>
@@ -887,7 +906,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="choice_txt_q">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="1.&#x95ee;&#x9898;&#xff1f;"/>
+                    <Property name="text" type="java.lang.String" value="&#x95ee;&#x9898;&#xff1f;"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel19">
@@ -942,6 +961,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choice_com_aActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="choice_com_b">
                   <Properties>
@@ -949,6 +971,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choice_com_bActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="choice_com_c">
                   <Properties>
@@ -956,6 +981,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choice_com_cActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="choice_com_d">
                   <Properties>
@@ -963,6 +991,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choice_com_dActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="choice_btn_q">
                   <Properties>
@@ -970,6 +1001,14 @@
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="choice_btn_qActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="choice_txt_qid">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="1"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -1067,7 +1106,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jButton19" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="68" max="32767" attributes="0"/>
+                          <EmptySpace pref="86" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1090,6 +1129,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="classify_btn_nameActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel25">
                   <Properties>
@@ -1124,6 +1166,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="classify_rad_typeaActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="classify_rad_typeb">
                   <Properties>
@@ -1132,6 +1177,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="classify_rad_typebActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="classify_txt_pic">
                   <Properties>
@@ -1165,6 +1213,9 @@
                       <Color id="&#x624b;&#x578b;&#x5149;&#x6807;"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton19ActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel30">
                   <Properties>
@@ -1197,7 +1248,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="jLabel31" min="-2" pref="83" max="-2" attributes="0"/>
-                          <EmptySpace pref="213" max="32767" attributes="0"/>
+                          <EmptySpace pref="231" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1207,6 +1258,241 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&#x8bf7;&#x628a;&#x7ae0;&#x8282;&#x56fe;&#x6807;&#x4ee5;&#x7ae0;&#x53f7;&#x547d;&#x540d;&#xff08;&#x4f8b;&#x5982;1.png,2.png&#xff09;&#x540e;&#x5bfc;&#x5165;&#x3002;"/>
                   </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel8">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="plist&#x6587;&#x4ef6;&#x7f16;&#x8f91;">
+                    <Property name="tabTitle" type="java.lang.String" value="plist&#x6587;&#x4ef6;&#x7f16;&#x8f91;"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="plist_btn_gplist" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="plist_txt1" min="-2" pref="180" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="plist_txt2" min="-2" pref="277" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="plist_txt3" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jScrollPane2" min="-2" pref="180" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane3" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
+                                              <Component id="jLabel36" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Component id="jScrollPane5" pref="347" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="plist_btn_insert" max="32767" attributes="0"/>
+                                      <Component id="plist_btn_delete" alignment="0" pref="137" max="32767" attributes="0"/>
+                                      <Component id="plist_btn_clear" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="plist_btn_browser" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="plist_btn_browser" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel35" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel36" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel37" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jScrollPane5" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane3" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane2" min="-2" pref="208" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="plist_txt1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="plist_txt2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="plist_txt3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="plist_btn_insert" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="plist_btn_delete" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="plist_btn_clear" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="plist_btn_gplist" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel34">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x8be5;&#x529f;&#x80fd;&#x7528;&#x4e8e;iOS&#x7248;&#x8f6f;&#x4ef6;&#x6d4b;&#x8bd5;&#x3002;&#x8bf7;&#x4ece;&#x8981;&#x5bfc;&#x5165;&#x6570;&#x636e;&#x5305;&#x7684;&#x8bbe;&#x5907;&#x4e2d;&#x63d0;&#x53d6;&#x6587;&#x4ef6;&#x201c;MyBook.plist&#x201d;&#x5e76;&#x6253;&#x5f00;&#x5b83;&#xff1a;"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="plist_btn_browser">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x6253;&#x5f00;&#x201c;MyBook.plist&#x201d;&#x6587;&#x4ef6;..."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plist_btn_browserActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel35">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x4e66;&#x7c4d;&#x540d;&#x79f0;&#xff08;bName&#xff09;"/>
+                  </Properties>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JList" name="plist_list1">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                        <Property name="selectionMode" type="int" value="0"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JList" name="plist_list2">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                        <Property name="selectionMode" type="int" value="0"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JList" name="plist_list3">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                        <Property name="selectionMode" type="int" value="0"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Component class="javax.swing.JTextField" name="plist_txt1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x672a;&#x547d;&#x540d;&#x4e66;&#x7c4d;"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="plist_txt2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="noname.png"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="plist_txt3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="http://127.0.0.1/test/noname.zip"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="plist_btn_insert">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x63d2;&#x5165;&#x884c;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plist_btn_insertActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel36">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x4e66;&#x7c4d;&#x5c01;&#x9762;&#x56fe;&#x7247;&#x6587;&#x4ef6;&#x540d;&#xff08;bPicture&#xff09;"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel37">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x4e66;&#x7c4d;&#x6765;&#x6e90;&#x7f51;&#x5740;&#xff08;bWeb&#xff09;"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="plist_btn_delete">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x5220;&#x9664;&#x9009;&#x62e9;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plist_btn_deleteActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="plist_btn_clear">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x6e05;&#x7a7a;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plist_btn_clearActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="plist_btn_gplist">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x2193; &#x751f;&#x6210;&#x201c;MyBook.plist&#x201d; &#x2193;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plist_btn_gplistActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1278,7 +1564,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="fileedit_txt_newfilename">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#x65b0;&#x5efa;&#x914d;&#x7f6e;&#x6587;&#x4ef6;.txt"/>
+                <Property name="text" type="java.lang.String" value="newfile.txt"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="fileedit_btn_newfile">
